@@ -33,7 +33,7 @@ public class Game implements IGameLogic {
     public void init(Window window) throws Exception {
         renderer.init(window);
         player.init();
-        //mapTree.init();
+        mapTree.init();
         testMesh = Mesh.loadMesh("textures/player.png", 64);
         testObject = new GameObject(testMesh);
         testObject.setPosition(1.5f,1.5f);
@@ -41,14 +41,10 @@ public class Game implements IGameLogic {
         testTree.init();
         //this is in order, things at the top of the list are behind things later in the list
         gameObjects = new GameObject[] {
-                //mapTree.getMapBack(),
-                //mapTree.getMapFront(),
-                //player,
-                //mapTree.getMapTop(),
-                testTree.getMapBack(),
-                testTree.getMapFront(),
+                mapTree.getMapBack(),
+                mapTree.getMapFront(),
                 player,
-                testTree.getMapTop(),
+                mapTree.getMapTop(),
                 testObject
         };
         testBox.setCenter(testObject.getPosition());
@@ -77,7 +73,9 @@ public class Game implements IGameLogic {
         player.update();
         //tests if player runs into the test hitbox
         if (testBox.intersects(player.hitBox)) {
-            Log.engine().info("intersection");
+            gameObjects[0] = testTree.getMapBack();
+            gameObjects[1] = testTree.getMapFront();
+            gameObjects[3] = testTree.getMapTop();
         }
         if (player.swing.getCenter() != null
                 && testBox.intersects(player.swing)) {
