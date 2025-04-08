@@ -26,8 +26,8 @@ public class AABB {
      * @param other This is the target of the collision check.
      * @return boolean Whether or not a collision has occurred.
      */
-    public boolean intersects(final AABB other) {
-        return (( Math.abs(center.x - other.center.x) < distance.x + other.distance.x) ||
+    public boolean intersects(final AABB other) { //I changed this from || to &&
+        return (( Math.abs(center.x - other.center.x) < distance.x + other.distance.x) &&
                 ( Math.abs(center.y - other.center.y) < distance.y + other.distance.y));
     }
 

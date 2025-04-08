@@ -18,6 +18,12 @@ public class MapTree {
                 "resources" + File.separator + "maps" + File.separator + "example.tmx");
     }
 
+    //Added this so you can construct a map other than example.tmx
+    public MapTree(String file) {
+        map = new MapHost("src" + File.separator + "main" + File.separator +
+                "resources" + File.separator + "maps" + File.separator + file);
+    }
+
     public void init() {
         Log.game().info("Loading tree map");
         map.init();

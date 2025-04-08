@@ -3,6 +3,7 @@ package com.github.jacksonhoggard.voodoo2d.game;
 import com.github.jacksonhoggard.voodoo2d.engine.Timer;
 import com.github.jacksonhoggard.voodoo2d.engine.Window;
 import com.github.jacksonhoggard.voodoo2d.engine.animation.Animation;
+import com.github.jacksonhoggard.voodoo2d.engine.gameObject.AABB;
 import com.github.jacksonhoggard.voodoo2d.engine.gameObject.GameObject;
 import com.github.jacksonhoggard.voodoo2d.engine.graphic.Mesh;
 import com.github.jacksonhoggard.voodoo2d.engine.log.Log;
@@ -17,6 +18,8 @@ public class Player extends GameObject {
     private Vector2f lastPosition;
     private Vector2f playerPos;
     private final float playerSpeed = 0.75F;
+    public AABB hitBox; //added player hitbox
+    public AABB swing;
 
     public Player() {
         super();
@@ -34,6 +37,10 @@ public class Player extends GameObject {
         Animation runUp = new Animation(this, 12, 15, 6);
         animations = new Animation[]{runDown, runLeft, runRight, runUp};
         playerPos = new Vector2f(0,0);
+        hitBox = new AABB();
+        hitBox.setCenter(playerPos); //added player hitbox
+        hitBox.setDistance(new Vector2f(.2f, .2f));
+        swing = new AABB();
     }
 
     public void input(Window window) {
@@ -58,6 +65,17 @@ public class Player extends GameObject {
             deltaPosition.y = 1F;
             animations[3].play();
         } else animations[3].stop();
+
+        //testing key press inputs
+        if(window.isKeyPressed(GLFW_KEY_Q)) {
+            swing.setCenter(new Vector2f(playerPos.x + .2f, playerPos.y));
+            swing.setDistance(new Vector2f(.2f, .2f));
+        }
+
+        //test map change
+        if(window.isKeyPressed(GLFW_KEY_E)) {
+
+        }
     }
 
     public void update() {
