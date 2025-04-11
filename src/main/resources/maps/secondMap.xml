@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="20" tilewidth="32" tileheight="32">
- </tileset>
- <tileset firstgid="4" name="CobleStone Tile" tilewidth="32" tileheight="32">
+ <tileset firstgid="4" name="CobleStone.png" tilewidth="32" tileheight="32">
   <image source="CobleStone Tile.webp" width="384" height="192"/>
  </tileset>
  <tileset firstgid="73" name="Monster.png" tilewidth="32" tileheight="32">
