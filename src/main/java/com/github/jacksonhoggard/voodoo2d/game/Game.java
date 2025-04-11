@@ -37,7 +37,7 @@ public class Game implements IGameLogic {
         player = new Player();
         mapTree = new MapTree();
         testBox = new AABB();
-        testTree = new MapTree("test.tmx");
+        testTree = new MapTree("secondMap.tmx");
     }
 
     @Override
