@@ -15,9 +15,6 @@
  <tileset firstgid="139" name="tree2-final" tilewidth="256" tileheight="256">
   <image source="tree2-final.png" width="256" height="256"/>
  </tileset>
- <tileset firstgid="4" name="CobleStone Tile" tilewidth="32" tileheight="32">
-  <image source="CobleStone Tile.webp" width="384" height="192"/>
- </tileset>
  <layer name="Background" width="20" height="20">
   <data>
    <tile gid="13"/>
