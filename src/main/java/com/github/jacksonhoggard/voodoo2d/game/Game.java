@@ -109,6 +109,7 @@ public class Game implements IGameLogic {
             if (fadeTimer >= fadeDuration) {
                 fading = false;
                 fadeTimer = 0f;
+                hasTriggeredFade = false;
             }
         }
         if (player.swing.getCenter() != null
