@@ -24,6 +24,10 @@ public class Game implements IGameLogic {
     private Mesh testMesh;
     private GameObject testObject;
     private MapTree testTree;
+    private Enemy enemy1;
+    private Enemy enemy2;
+    private Enemy enemy3;
+
     // added to create the black fade transition
     private GameObject fadeOverlay;
     private boolean fading = false;
@@ -37,7 +41,10 @@ public class Game implements IGameLogic {
         player = new Player();
         mapTree = new MapTree();
         testBox = new AABB();
-        testTree = new MapTree("secondMap.tmx");
+        testTree = new MapTree("test.tmx");
+        enemy1 = new Enemy();
+        enemy2 = new Enemy();
+        enemy3 = new Enemy();
     }
 
     @Override
@@ -50,20 +57,25 @@ public class Game implements IGameLogic {
         testObject.setPosition(1.5f,1.5f);
         testObject.setScale(.2f);
         testTree.init();
+        enemy1.init();
+        enemy2.init();
+        enemy3.init();
         //this is in order, things at the top of the list are behind things later in the list
         gameObjects = new GameObject[] {
                 mapTree.getMapBack(),
                 mapTree.getMapFront(),
                 player,
-                mapTree.getMapTop(),
-                testObject
+                testObject,
+                enemy1,
+                enemy2,
+                enemy3,
+                mapTree.getMapTop()
         };
+        enemy1.setPosition(-1.5f, -1.5f);
+        enemy2.setPosition(1.5f, -1.2f);
+        enemy3.setPosition(-1.5f, 1.5f);
         testBox.setCenter(testObject.getPosition());
         testBox.setDistance(new Vector2f(.025f, .025f));
-        // setup hitbox collision for player
-        player.hitBox = new AABB();
-        player.hitBox.setCenter(player.getPosition());
-        player.hitBox.setDistance(new Vector2f(0.025f, 0.025f)); //change values
         //set up fade
         Mesh fadeMesh = Mesh.loadMesh("textures/fade.png", 1);
         fadeOverlay = new GameObject(fadeMesh);
@@ -91,11 +103,17 @@ public class Game implements IGameLogic {
             camera.movePosition(0, 0.75F * Timer.getDeltaTime());
         }
         player.update();
+        enemy1.update();
+        enemy2.update();
+        enemy3.update();
         // if the player intersects with the hitbox, trigger the fade to change the background
         if (!hasTriggeredFade && testBox.intersects(player.hitBox)) {
             fading = true;
             fadeTimer = 0f;
             hasTriggeredFade = true;
+            enemy1.setPosition(-1.5f, -1f);
+            enemy2.setPosition(1.5f, 1.2f);
+            enemy3.setPosition(-1.5f, 1.5f);
         }
         // handle fade transition
         if (fading) {
@@ -104,7 +122,7 @@ public class Game implements IGameLogic {
             if (fadeTimer >= fadeDuration / 2 && gameObjects[0] != testTree.getMapBack()) {
                 gameObjects[0] = testTree.getMapBack();
                 gameObjects[1] = testTree.getMapFront();
-                gameObjects[3] = testTree.getMapTop();
+                gameObjects[gameObjects.length - 1] = testTree.getMapTop();
             }
             if (fadeTimer >= fadeDuration) {
                 fading = false;
@@ -112,10 +130,6 @@ public class Game implements IGameLogic {
                 hasTriggeredFade = false;
             }
         }
-        if (player.swing.getCenter() != null
-                && testBox.intersects(player.swing)) {
-            Log.engine().info("hit");
-        }   
     }
 
     @Override

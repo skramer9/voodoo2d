@@ -19,7 +19,6 @@ public class Player extends GameObject {
     private Vector2f playerPos;
     private final float playerSpeed = 0.75F;
     public AABB hitBox; //added player hitbox
-    public AABB swing;
 
     public Player() {
         super();
@@ -40,7 +39,6 @@ public class Player extends GameObject {
         hitBox = new AABB();
         hitBox.setCenter(playerPos); //added player hitbox
         hitBox.setDistance(new Vector2f(.2f, .2f));
-        swing = new AABB();
     }
 
     public void input(Window window) {
@@ -65,17 +63,6 @@ public class Player extends GameObject {
             deltaPosition.y = 1F;
             animations[3].play();
         } else animations[3].stop();
-
-        //testing key press inputs
-        if(window.isKeyPressed(GLFW_KEY_Q)) {
-            swing.setCenter(new Vector2f(playerPos.x + .2f, playerPos.y));
-            swing.setDistance(new Vector2f(.2f, .2f));
-        }
-
-        //test map change
-        if(window.isKeyPressed(GLFW_KEY_E)) {
-
-        }
     }
 
     public void update() {
