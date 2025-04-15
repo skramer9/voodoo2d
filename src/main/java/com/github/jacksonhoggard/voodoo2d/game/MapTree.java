@@ -41,17 +41,17 @@ public class MapTree {
         mapTop = map.getMap().getLayers()[2].asGameObject();
         // map walls to create map boundaries
         wallRight = new AABB();
-        wallRight.setCenter(new Vector2f(1.5f, 1.5f));
+        wallRight.setCenter(new Vector2f(1.7f, 1.7f));
         wallRight.setDistance(new Vector2f(0.01f, 3.0f));
         wallLeft = new AABB();
-        wallLeft.setCenter(new Vector2f(-1.5f, 1.5f));
+        wallLeft.setCenter(new Vector2f(-1.7f, 1.7f));
         wallLeft.setDistance(new Vector2f(0.01f, 3.0f));
         wallTop = new AABB();
-        wallTop.setCenter(new Vector2f(0.0f, 1.5f));
-        wallTop.setDistance(new Vector2f(1.5f, 0.01f));
+        wallTop.setCenter(new Vector2f(0.0f, 1.75f));
+        wallTop.setDistance(new Vector2f(1.75f, 0.01f));
         wallBottom = new AABB();
-        wallBottom.setCenter(new Vector2f(0.0f, -1.5f));
-        wallBottom.setDistance(new Vector2f(1.5f, 0.05f));
+        wallBottom.setCenter(new Vector2f(0.0f, -1.7f));
+        wallBottom.setDistance(new Vector2f(1.7f, 0.07f));
     }
 
     public GameObject getMapBack() {
