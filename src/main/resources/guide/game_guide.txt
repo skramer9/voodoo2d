@@ -1,0 +1,60 @@
+# VOODOO2D GAME GUIDE
+
+## Welcome to Voodoo2D!
+This guide will help you understand the basics of playing the game and navigating through its features.
+
+## Game Controls
+Movement: Use the W, A, S, D keys to move your character
+* W: Move up
+* A: Move left
+* S: Move down
+* D: Move right
+
+Actions:
+* SPACE: Jump
+* E: Interact with objects
+* Q: Use special ability
+* ESC: Pause game/Open menu
+
+## Game Objectives
+Your main goal is to navigate through various levels, collecting items and avoiding obstacles.
+Each level will have its own unique challenges and enemies to overcome.
+
+## Health and Energy
+* Your health is displayed in the top-left corner of the screen
+* Energy is used for special abilities and is displayed next to your health
+* Collect health potions to restore health
+* Energy recharges slowly over time
+
+## Items and Collectibles
+* Coins: Increase your score and can be used to purchase upgrades
+* Power-ups: Temporary boosts to your abilities
+* Keys: Used to unlock doors and chests
+* Artifacts: Special items needed to complete certain quests
+
+## Combat
+* Press F to attack
+* Different enemies require different strategies
+* Some enemies are immune to certain attacks
+* Watch for enemy attack patterns to find the best time to strike
+
+## Saving Progress
+* The game automatically saves your progress when you complete a level
+* You can also manually save at checkpoints found throughout the levels
+* Press P to quick-save at any time
+
+## Tips for New Players
+1. Explore thoroughly - many hidden items can be found off the main path
+2. Talk to NPCs for hints and side quests
+3. Upgrade your abilities whenever possible
+4. Practice timing your jumps and attacks
+5. Don't rush - take your time to learn each level
+
+## Troubleshooting
+If you encounter any issues while playing:
+* Try restarting the level
+* Check for game updates
+* Verify your game files
+* Visit our website for support
+
+Enjoy your adventure in Voodoo2D!
