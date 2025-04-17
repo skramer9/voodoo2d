@@ -82,6 +82,7 @@ public class TileSet {
     }
 
     public String getName() {
+
         return this.name;
     }
 
@@ -90,6 +91,7 @@ public class TileSet {
     }
 
     public String getSource() {
+
         return this.source;
     }
 
@@ -98,6 +100,7 @@ public class TileSet {
     }
 
     public int[][] getGIDs() {
+
         return GIDs;
     }
 }

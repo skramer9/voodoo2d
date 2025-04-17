@@ -1,5 +1,8 @@
 package com.github.jacksonhoggard.voodoo2d.engine.testing;
 
+import com.github.jacksonhoggard.voodoo2d.engine.mapping.Map;
+import com.github.jacksonhoggard.voodoo2d.engine.mapping.Layer;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,16 +18,15 @@ import java.util.List;
  */
 public class TestFile {
 
-    // Store the guide text content
     private List<String> guideContent;
-
-    // File path to the guide text file in resources directory
     private static final String GUIDE_FILE_PATH = "guide/game_guide.txt";
+    private Map gameMap;
 
     /**
-     * Constructor initializes the guide text.
+     * Constructor initializes the guide text and map info.
      */
-    public TestFile() {
+    public TestFile(Map gameMap) {
+        this.gameMap = gameMap;
         guideContent = new ArrayList<>();
         loadGuideText();
     }
@@ -34,19 +36,14 @@ public class TestFile {
      */
     private void loadGuideText() {
         try {
-            // Get the resource as an input stream
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(GUIDE_FILE_PATH);
-
             if (inputStream != null) {
-                // Read the text file line by line
                 BufferedReader reader = new BufferedReader(
                         new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-
                 String line;
                 while ((line = reader.readLine()) != null) {
                     guideContent.add(line);
                 }
-
                 reader.close();
                 inputStream.close();
             } else {
@@ -60,8 +57,6 @@ public class TestFile {
 
     /**
      * Returns the entire guide text as a single string.
-     *
-     * @return String containing the entire guide text
      */
     public String getCompleteGuideText() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -73,29 +68,18 @@ public class TestFile {
 
     /**
      * Returns a specific section of the guide text.
-     *
-     * @param sectionTitle The title of the section to return
-     * @return String containing the requested section or null if not found
      */
     public String getGuideSection(String sectionTitle) {
         StringBuilder section = new StringBuilder();
         boolean inSection = false;
 
         for (String line : guideContent) {
-            // Check if this line is a section header
             if (line.startsWith("## ")) {
-                // If we were in the target section and found a new section, we're done
-                if (inSection) {
-                    break;
-                }
-
-                // Check if this is the section we're looking for
+                if (inSection) break;
                 if (line.substring(3).trim().equalsIgnoreCase(sectionTitle)) {
                     inSection = true;
                 }
-            }
-            // If we're in the target section, add this line to our result
-            else if (inSection) {
+            } else if (inSection) {
                 section.append(line).append("\n");
             }
         }
@@ -105,7 +89,6 @@ public class TestFile {
 
     /**
      * Displays guide text in a formatted way.
-     * This method can be called to show instructions to the player.
      */
     public void displayGuide() {
         System.out.println("==============================================");
@@ -120,18 +103,38 @@ public class TestFile {
     }
 
     /**
+     * Displays map information extracted from the provided Map instance.
+     */
+    public void displayMapInfo() {
+        System.out.println("=============== MAP INFORMATION ===============");
+        if (gameMap != null) {
+            Layer[] layers = gameMap.getLayers();
+            System.out.println("Number of Layers: " + layers.length);
+            for (int i = 0; i < layers.length; i++) {
+                System.out.println("- Layer " + (i + 1)); // No getName() available, using fallback
+            }
+
+            System.out.println("(TileSet information not available in this version)");
+        } else {
+            System.out.println("Map information is not available.");
+        }
+        System.out.println("===============================================");
+    }
+
+    /**
      * Example usage of this class.
      */
     public static void main(String[] args) {
-        TestFile guideTest = new TestFile();
+        Map loadedMap = null; // Load your Map object here if available
 
-        // Display the entire guide
+        TestFile guideTest = new TestFile(loadedMap);
+
         guideTest.displayGuide();
+        guideTest.displayMapInfo();
 
-        // Or get specific sections
         String controlsSection = guideTest.getGuideSection("Game Controls");
         if (controlsSection != null) {
-            System.out.println("\nControls Section:");
+            System.out.println("\n=== Game Controls Section ===");
             System.out.println(controlsSection);
         }
     }
