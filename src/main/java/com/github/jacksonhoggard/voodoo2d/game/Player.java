@@ -68,6 +68,10 @@ public class Player extends GameObject {
             deltaPosition.y = 1F;
             animations[3].play();
         } else animations[3].stop();
+
+        if(window.isKeyPressed(GLFW_KEY_Q)) {
+            Log.game().debug("Player pos: (x:" + playerPos.x + ", y: " + playerPos.y + ")");
+        }
     }
 
     public void update() {

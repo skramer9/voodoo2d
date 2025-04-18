@@ -41,7 +41,7 @@ public class Game implements IGameLogic {
         player = new Player();
         mapTree = new MapTree();
         testBox = new AABB();
-        testTree = new MapTree("test.tmx");
+        testTree = new MapTree("secondMap.tmx");
         enemy1 = new Enemy();
         enemy2 = new Enemy();
         enemy3 = new Enemy();
