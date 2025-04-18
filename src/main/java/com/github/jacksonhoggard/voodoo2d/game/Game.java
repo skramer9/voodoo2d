@@ -1,12 +1,17 @@
 package com.github.jacksonhoggard.voodoo2d.game;
 
-import com.github.jacksonhoggard.voodoo2d.engine.*;
-import com.github.jacksonhoggard.voodoo2d.engine.animation.Animation;
+import org.joml.Vector2f;
+
+import com.github.jacksonhoggard.voodoo2d.engine.Camera;
+import com.github.jacksonhoggard.voodoo2d.engine.IGameLogic;
+import com.github.jacksonhoggard.voodoo2d.engine.MouseInput;
+import com.github.jacksonhoggard.voodoo2d.engine.Renderer;
+import com.github.jacksonhoggard.voodoo2d.engine.Timer;
+import com.github.jacksonhoggard.voodoo2d.engine.Window;
 import com.github.jacksonhoggard.voodoo2d.engine.gameObject.AABB;
 import com.github.jacksonhoggard.voodoo2d.engine.gameObject.GameObject;
 import com.github.jacksonhoggard.voodoo2d.engine.graphic.Mesh;
 import com.github.jacksonhoggard.voodoo2d.engine.log.Log;
-import org.joml.Vector2f;
 
 public class Game implements IGameLogic {
 
@@ -19,6 +24,16 @@ public class Game implements IGameLogic {
     private Mesh testMesh;
     private GameObject testObject;
     private MapTree testTree;
+    private Enemy enemy1;
+    private Enemy enemy2;
+    private Enemy enemy3;
+
+    // added to create the black fade transition
+    private GameObject fadeOverlay;
+    private boolean fading = false;
+    private float fadeTimer = 0f;
+    private final float fadeDuration = 1.0f;
+    private boolean hasTriggeredFade = false;
 
     public Game() {
         renderer = new Renderer();
@@ -27,6 +42,9 @@ public class Game implements IGameLogic {
         mapTree = new MapTree();
         testBox = new AABB();
         testTree = new MapTree("test.tmx");
+        enemy1 = new Enemy();
+        enemy2 = new Enemy();
+        enemy3 = new Enemy();
     }
 
     @Override
@@ -39,16 +57,30 @@ public class Game implements IGameLogic {
         testObject.setPosition(1.5f,1.5f);
         testObject.setScale(.2f);
         testTree.init();
+        enemy1.init();
+        enemy2.init();
+        enemy3.init();
         //this is in order, things at the top of the list are behind things later in the list
         gameObjects = new GameObject[] {
                 mapTree.getMapBack(),
                 mapTree.getMapFront(),
                 player,
-                mapTree.getMapTop(),
-                testObject
+                testObject,
+                enemy1,
+                enemy2,
+                enemy3,
+                mapTree.getMapTop()
         };
+        enemy1.setPosition(-1.5f, -1.5f);
+        enemy2.setPosition(1.5f, -1.2f);
+        enemy3.setPosition(-1.5f, 1.5f);
         testBox.setCenter(testObject.getPosition());
         testBox.setDistance(new Vector2f(.025f, .025f));
+        //set up fade
+        Mesh fadeMesh = Mesh.loadMesh("textures/fade.png", 1);
+        fadeOverlay = new GameObject(fadeMesh);
+        fadeOverlay.setScale(10f); // covers the screen
+        fadeOverlay.setPosition(camera.getPosition().x, camera.getPosition().y); // lock to camera
     }
 
     @Override
@@ -71,21 +103,42 @@ public class Game implements IGameLogic {
             camera.movePosition(0, 0.75F * Timer.getDeltaTime());
         }
         player.update();
-        //tests if player runs into the test hitbox
-        if (testBox.intersects(player.hitBox)) {
-            gameObjects[0] = testTree.getMapBack();
-            gameObjects[1] = testTree.getMapFront();
-            gameObjects[3] = testTree.getMapTop();
+        enemy1.update();
+        enemy2.update();
+        enemy3.update();
+        // if the player intersects with the hitbox, trigger the fade to change the background
+        if (!hasTriggeredFade && testBox.intersects(player.hitBox)) {
+            fading = true;
+            fadeTimer = 0f;
+            hasTriggeredFade = true;
+            enemy1.setPosition(-1.5f, -1f);
+            enemy2.setPosition(1.5f, 1.2f);
+            enemy3.setPosition(-1.5f, 1.5f);
         }
-        if (player.swing.getCenter() != null
-                && testBox.intersects(player.swing)) {
-            Log.engine().info("hit");
+        // handle fade transition
+        if (fading) {
+            fadeTimer += Timer.getDeltaTime();
+            fadeOverlay.setPosition(camera.getPosition().x, camera.getPosition().y);
+            if (fadeTimer >= fadeDuration / 2 && gameObjects[0] != testTree.getMapBack()) {
+                gameObjects[0] = testTree.getMapBack();
+                gameObjects[1] = testTree.getMapFront();
+                gameObjects[gameObjects.length - 1] = testTree.getMapTop();
+            }
+            if (fadeTimer >= fadeDuration) {
+                fading = false;
+                fadeTimer = 0f;
+                hasTriggeredFade = false;
+            }
         }
     }
 
     @Override
     public void render(Window window) {
         renderer.render(window, camera, gameObjects);
+        if (fading) {
+            renderer.render(window, camera, new GameObject[]{fadeOverlay});
+        }
+
     }
 
     @Override

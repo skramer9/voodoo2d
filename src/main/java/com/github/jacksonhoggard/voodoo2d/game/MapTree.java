@@ -1,10 +1,13 @@
 package com.github.jacksonhoggard.voodoo2d.game;
 
+import java.io.File;
+
+import org.joml.Vector2f;
+
+import com.github.jacksonhoggard.voodoo2d.engine.gameObject.AABB;
 import com.github.jacksonhoggard.voodoo2d.engine.gameObject.GameObject;
 import com.github.jacksonhoggard.voodoo2d.engine.log.Log;
 import com.github.jacksonhoggard.voodoo2d.engine.mapping.MapHost;
-
-import java.io.File;
 
 public class MapTree {
 
@@ -12,6 +15,11 @@ public class MapTree {
     private GameObject mapBack;
     private GameObject mapFront;
     private GameObject mapTop;
+    // variables for map walls
+    public static AABB wallRight;
+    public static AABB wallLeft;
+    public static AABB wallTop;
+    public static AABB wallBottom;
 
     public MapTree() {
         map = new MapHost("src" + File.separator + "main" + File.separator +
@@ -31,6 +39,19 @@ public class MapTree {
         mapBack = map.getMap().getLayers()[0].asGameObject();
         mapFront = map.getMap().getLayers()[1].asGameObject();
         mapTop = map.getMap().getLayers()[2].asGameObject();
+        // map walls to create map boundaries
+        wallRight = new AABB();
+        wallRight.setCenter(new Vector2f(1.7f, 1.7f));
+        wallRight.setDistance(new Vector2f(0.01f, 3.0f));
+        wallLeft = new AABB();
+        wallLeft.setCenter(new Vector2f(-1.7f, 1.7f));
+        wallLeft.setDistance(new Vector2f(0.01f, 3.0f));
+        wallTop = new AABB();
+        wallTop.setCenter(new Vector2f(0.0f, 1.75f));
+        wallTop.setDistance(new Vector2f(1.75f, 0.01f));
+        wallBottom = new AABB();
+        wallBottom.setCenter(new Vector2f(0.0f, -1.7f));
+        wallBottom.setDistance(new Vector2f(1.7f, 0.07f));
     }
 
     public GameObject getMapBack() {
