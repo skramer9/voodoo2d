@@ -1,7 +1,5 @@
 package com.github.jacksonhoggard.voodoo2d.game;
 
-import com.github.jacksonhoggard.voodoo2d.engine.Timer;
-import com.github.jacksonhoggard.voodoo2d.engine.Window;
 import com.github.jacksonhoggard.voodoo2d.engine.animation.Animation;
 import com.github.jacksonhoggard.voodoo2d.engine.gameObject.AABB;
 import com.github.jacksonhoggard.voodoo2d.engine.gameObject.GameObject;
@@ -26,7 +24,16 @@ public class Enemy extends GameObject {
     }
 
     public void init() {
-        this.setMesh(Mesh.loadMesh("textures/pixil-frame-0.png", 32));
+        int mapNum = Game.getMapNumber();
+        if (mapNum == 1) {
+            this.setMesh(Mesh.loadMesh("textures/SandAnimal.png", 32));
+        }
+        if (mapNum == 2) {
+            this.setMesh(Mesh.loadMesh("textures/pixil-frame-0.png", 32));
+        }
+        if (mapNum == 3) {
+            this.setMesh(Mesh.loadMesh("textures/LavaMonster.png", 32));
+        }
         Animation runDown = new Animation(this, 0, 3, 6);
         Animation runLeft = new Animation(this, 4, 7, 6);
         Animation runRight = new Animation(this, 8, 11, 6);

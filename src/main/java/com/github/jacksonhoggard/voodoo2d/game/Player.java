@@ -40,7 +40,7 @@ public class Player extends GameObject {
         Animation runRight = new Animation(this, 8, 11, 6);
         Animation runUp = new Animation(this, 12, 15, 6);
         animations = new Animation[]{runDown, runLeft, runRight, runUp};
-        playerPos = new Vector2f(0,0);
+        playerPos = new Vector2f(0,-1.4f); //changed to spawn in the bottom
         hitBox = new AABB();
         hitBox.setCenter(playerPos); //added player hitbox
         hitBox.setDistance(new Vector2f(.2f, .2f));

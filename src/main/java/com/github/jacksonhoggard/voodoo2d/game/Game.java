@@ -21,9 +21,13 @@ public class Game implements IGameLogic {
     private GameObject[] gameObjects;
     private final Player player;
     private final AABB testBox; //added to test hitboxes
-    private Mesh testMesh;
+    private Mesh portalMesh;
     private GameObject testObject;
-    private MapTree testTree;
+    private MapTree secondTree;
+    private MapTree thirdTree;
+
+    public static int mapNumber = 1;
+
     private Enemy enemy1;
     private Enemy enemy2;
     private Enemy enemy3;
@@ -39,9 +43,10 @@ public class Game implements IGameLogic {
         renderer = new Renderer();
         camera = new Camera();
         player = new Player();
-        mapTree = new MapTree();
+        mapTree = new MapTree("firstMap.tmx");
         testBox = new AABB();
-        testTree = new MapTree("secondMap.tmx");
+        secondTree = new MapTree("secondMap.tmx");
+        thirdTree = new MapTree("thirdMap.tmx");
         enemy1 = new Enemy();
         enemy2 = new Enemy();
         enemy3 = new Enemy();
@@ -52,11 +57,12 @@ public class Game implements IGameLogic {
         renderer.init(window);
         player.init();
         mapTree.init();
-        testMesh = Mesh.loadMesh("textures/player.png", 64);
-        testObject = new GameObject(testMesh);
-        testObject.setPosition(1.5f,1.5f);
+        portalMesh = Mesh.loadMesh("textures/Portal.png", 32);
+        testObject = new GameObject(portalMesh);
+        testObject.setPosition(0,1.5f);
         testObject.setScale(.2f);
-        testTree.init();
+        secondTree.init();
+        thirdTree.init();
         enemy1.init();
         enemy2.init();
         enemy3.init();
@@ -111,18 +117,23 @@ public class Game implements IGameLogic {
             fading = true;
             fadeTimer = 0f;
             hasTriggeredFade = true;
+            enemy1.init();
+            enemy2.init();
+            enemy3.init();
             enemy1.setPosition(-1.5f, -1f);
             enemy2.setPosition(1.5f, 1.2f);
             enemy3.setPosition(-1.5f, 1.5f);
+            testObject.setPosition(0,-1.5f);
+            mapNumber++;
         }
         // handle fade transition
         if (fading) {
             fadeTimer += Timer.getDeltaTime();
             fadeOverlay.setPosition(camera.getPosition().x, camera.getPosition().y);
-            if (fadeTimer >= fadeDuration / 2 && gameObjects[0] != testTree.getMapBack()) {
-                gameObjects[0] = testTree.getMapBack();
-                gameObjects[1] = testTree.getMapFront();
-                gameObjects[gameObjects.length - 1] = testTree.getMapTop();
+            if (fadeTimer >= fadeDuration / 2 && gameObjects[0] != secondTree.getMapBack()) {
+                gameObjects[0] = secondTree.getMapBack();
+                gameObjects[1] = secondTree.getMapFront();
+                gameObjects[gameObjects.length - 1] = secondTree.getMapTop();
             }
             if (fadeTimer >= fadeDuration) {
                 fading = false;
@@ -147,5 +158,9 @@ public class Game implements IGameLogic {
         for (GameObject gameObject : gameObjects) {
             gameObject.getMesh().cleanUp();
         }
+    }
+
+    public static int getMapNumber() {
+        return mapNumber;
     }
 }
