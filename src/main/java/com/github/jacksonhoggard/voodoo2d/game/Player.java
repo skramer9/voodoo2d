@@ -3,7 +3,6 @@ package com.github.jacksonhoggard.voodoo2d.game;
 import org.joml.Vector2f;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_E;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_Q;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
@@ -43,7 +42,7 @@ public class Player extends GameObject {
         playerPos = new Vector2f(0,-1.4f); //changed to spawn in the bottom
         hitBox = new AABB();
         hitBox.setCenter(playerPos); //added player hitbox
-        hitBox.setDistance(new Vector2f(.2f, .2f));
+        hitBox.setDistance(new Vector2f(0.025f, 0.025f));
     }
 
     public void input(Window window) {
