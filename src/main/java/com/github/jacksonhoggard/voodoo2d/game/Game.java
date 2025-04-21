@@ -11,7 +11,6 @@ import com.github.jacksonhoggard.voodoo2d.engine.Window;
 import com.github.jacksonhoggard.voodoo2d.engine.gameObject.AABB;
 import com.github.jacksonhoggard.voodoo2d.engine.gameObject.GameObject;
 import com.github.jacksonhoggard.voodoo2d.engine.graphic.Mesh;
-import com.github.jacksonhoggard.voodoo2d.engine.log.Log;
 
 public class Game implements IGameLogic {
 
@@ -26,7 +25,9 @@ public class Game implements IGameLogic {
     private MapTree secondTree;
     private MapTree thirdTree;
 
-    public static int mapNumber = 1;
+    // created array to keep track of the maps
+    public static int mapNumber = 0;
+    private MapTree[] allMaps;
 
     private Enemy enemy1;
     private Enemy enemy2;
@@ -39,6 +40,7 @@ public class Game implements IGameLogic {
     private final float fadeDuration = 1.0f;
     private boolean hasTriggeredFade = false;
 
+
     public Game() {
         renderer = new Renderer();
         camera = new Camera();
@@ -50,6 +52,7 @@ public class Game implements IGameLogic {
         enemy1 = new Enemy();
         enemy2 = new Enemy();
         enemy3 = new Enemy();
+        allMaps = new MapTree[]{mapTree, secondTree, thirdTree};
     }
 
     @Override
@@ -113,7 +116,7 @@ public class Game implements IGameLogic {
         enemy2.update();
         enemy3.update();
         // if the player intersects with the hitbox, trigger the fade to change the background
-        if (!hasTriggeredFade && testBox.intersects(player.hitBox)) {
+        if (!hasTriggeredFade && testBox.intersects(player.hitBox) && mapNumber < allMaps.length - 1) {
             fading = true;
             fadeTimer = 0f;
             hasTriggeredFade = true;
@@ -123,17 +126,17 @@ public class Game implements IGameLogic {
             enemy1.setPosition(-1.5f, -1f);
             enemy2.setPosition(1.5f, 1.2f);
             enemy3.setPosition(-1.5f, 1.5f);
-            testObject.setPosition(0,-1.5f);
+            testObject.setPosition(0,-1.4f);
             mapNumber++;
         }
         // handle fade transition
         if (fading) {
             fadeTimer += Timer.getDeltaTime();
             fadeOverlay.setPosition(camera.getPosition().x, camera.getPosition().y);
-            if (fadeTimer >= fadeDuration / 2 && gameObjects[0] != secondTree.getMapBack()) {
-                gameObjects[0] = secondTree.getMapBack();
-                gameObjects[1] = secondTree.getMapFront();
-                gameObjects[gameObjects.length - 1] = secondTree.getMapTop();
+            if (fadeTimer >= fadeDuration / 2 && gameObjects[0] != allMaps[mapNumber].getMapBack()) {
+                gameObjects[0] = allMaps[mapNumber].getMapBack();
+                gameObjects[1] = allMaps[mapNumber].getMapFront();
+                gameObjects[gameObjects.length - 1] = allMaps[mapNumber].getMapTop();
             }
             if (fadeTimer >= fadeDuration) {
                 fading = false;

@@ -1,11 +1,12 @@
 package com.github.jacksonhoggard.voodoo2d.game;
 
+import org.joml.Vector2f;
+
 import com.github.jacksonhoggard.voodoo2d.engine.animation.Animation;
 import com.github.jacksonhoggard.voodoo2d.engine.gameObject.AABB;
 import com.github.jacksonhoggard.voodoo2d.engine.gameObject.GameObject;
 import com.github.jacksonhoggard.voodoo2d.engine.graphic.Mesh;
 import com.github.jacksonhoggard.voodoo2d.engine.log.Log;
-import org.joml.Vector2f;
 
 public class Enemy extends GameObject {
     private Animation[] animations;
@@ -25,13 +26,13 @@ public class Enemy extends GameObject {
 
     public void init() {
         int mapNum = Game.getMapNumber();
-        if (mapNum == 1) {
+        if (mapNum == 0) {
             this.setMesh(Mesh.loadMesh("textures/SandAnimal.png", 32));
         }
-        if (mapNum == 2) {
+        if (mapNum == 1) {
             this.setMesh(Mesh.loadMesh("textures/pixil-frame-0.png", 32));
         }
-        if (mapNum == 3) {
+        if (mapNum == 2) {
             this.setMesh(Mesh.loadMesh("textures/LavaMonster.png", 32));
         }
         Animation runDown = new Animation(this, 0, 3, 6);
