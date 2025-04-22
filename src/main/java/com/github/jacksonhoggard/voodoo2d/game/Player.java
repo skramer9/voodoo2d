@@ -95,4 +95,3 @@ public class Player extends GameObject {
         return this.getAABB().intersects(other.getAABB());
     }
 }
-
