@@ -1,12 +1,7 @@
 package com.github.jacksonhoggard.voodoo2d.game;
 
 import org.joml.Vector2f;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_E;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_Q;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+import static org.lwjgl.glfw.GLFW.*;
 
 import com.github.jacksonhoggard.voodoo2d.engine.Timer;
 import com.github.jacksonhoggard.voodoo2d.engine.Window;
@@ -23,12 +18,12 @@ public class Player extends GameObject {
     private Vector2f lastPosition;
     private Vector2f playerPos;
     private final float playerSpeed = 0.75F;
-    public AABB hitBox; //added player hitbox
+    public AABB hitBox; // added player hitbox
 
     public Player() {
         super();
         animations = new Animation[0];
-        deltaPosition = new Vector2f(0,0);
+        deltaPosition = new Vector2f(0, 0);
         lastPosition = new Vector2f(0, 0);
         setScale(0.2f);
     }
@@ -40,31 +35,31 @@ public class Player extends GameObject {
         Animation runRight = new Animation(this, 8, 11, 6);
         Animation runUp = new Animation(this, 12, 15, 6);
         animations = new Animation[]{runDown, runLeft, runRight, runUp};
-        playerPos = new Vector2f(0,0);
+        playerPos = new Vector2f(0, 0);
         hitBox = new AABB();
-        hitBox.setCenter(playerPos); //added player hitbox
+        hitBox.setCenter(playerPos); // added player hitbox
         hitBox.setDistance(new Vector2f(.2f, .2f));
     }
 
     public void input(Window window) {
-        deltaPosition.set(0,0);
+        deltaPosition.set(0, 0);
 
-        if(window.isKeyPressed(GLFW_KEY_S)) {
+        if (window.isKeyPressed(GLFW_KEY_S)) {
             deltaPosition.y = -1F;
             animations[0].play();
         } else animations[0].stop();
 
-        if(window.isKeyPressed(GLFW_KEY_A)) {
+        if (window.isKeyPressed(GLFW_KEY_A)) {
             deltaPosition.x = -1F;
             animations[1].play();
         } else animations[1].stop();
 
-        if(window.isKeyPressed(GLFW_KEY_D)) {
+        if (window.isKeyPressed(GLFW_KEY_D)) {
             deltaPosition.x = 1F;
             animations[2].play();
         } else animations[2].stop();
 
-        if(window.isKeyPressed(GLFW_KEY_W)) {
+        if (window.isKeyPressed(GLFW_KEY_W)) {
             deltaPosition.y = 1F;
             animations[3].play();
         } else animations[3].stop();
@@ -74,7 +69,7 @@ public class Player extends GameObject {
         playerPos.y += ((deltaPosition.y * playerSpeed) * Timer.getDeltaTime());
         playerPos.x += ((deltaPosition.x * playerSpeed) * Timer.getDeltaTime());
         this.setPosition(playerPos.x, playerPos.y);
-        if(!lastPosition.equals(playerPos) && deltaPosition.x == 0 && deltaPosition.y == 0) {
+        if (!lastPosition.equals(playerPos) && deltaPosition.x == 0 && deltaPosition.y == 0) {
             Log.game().debug("Player pos: (x:" + playerPos.x + ", y: " + playerPos.y + ")");
             lastPosition.set(playerPos);
         }
@@ -89,4 +84,15 @@ public class Player extends GameObject {
             lastPosition.set(playerPos);
         }
     }
+
+    //  Provide access to hitBox for collision detection
+    public AABB getAABB() {
+        return hitBox;
+    }
+
+    // Collision detection with any GameObject (enemy)
+    public boolean collidesWith(GameObject other) {
+        return this.getAABB().intersects(other.getAABB());
+    }
 }
+
