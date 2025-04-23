@@ -27,6 +27,10 @@ public class Game implements IGameLogic {
     private Enemy enemy1;
     private Enemy enemy2;
     private Enemy enemy3;
+    private Enemy enemy4;
+    private Enemy enemy5;
+    private Enemy enemy6;
+
 
     private GameObject fadeOverlay;
     private boolean fading = false;
@@ -53,6 +57,9 @@ public class Game implements IGameLogic {
         enemy1 = new Enemy();
         enemy2 = new Enemy();
         enemy3 = new Enemy();
+        enemy4 = new Enemy();
+        enemy5 = new Enemy();
+        enemy6 = new Enemy();
     }
 
     @Override
@@ -69,8 +76,11 @@ public class Game implements IGameLogic {
         enemy1.init();
         enemy2.init();
         enemy3.init();
+        enemy4.init();
+        enemy5.init();
+        enemy6.init();
 
-        gameObjects = new GameObject[] {
+        gameObjects = new GameObject[]{
                 mapTree.getMapBack(),
                 mapTree.getMapFront(),
                 player,
@@ -78,6 +88,9 @@ public class Game implements IGameLogic {
                 enemy1,
                 enemy2,
                 enemy3,
+                enemy4,
+                enemy5,
+                enemy6,
                 mapTree.getMapTop()
         };
 
@@ -119,6 +132,7 @@ public class Game implements IGameLogic {
         enemy2.update();
         enemy3.update();
 
+
         // Restart game on player-enemy collision
         if (player.hitBox.intersects(enemy1.hitBox) ||
                 player.hitBox.intersects(enemy2.hitBox) ||
@@ -135,6 +149,10 @@ public class Game implements IGameLogic {
             enemy1.setPosition(-1.5f, -1f);
             enemy2.setPosition(1.5f, 1.2f);
             enemy3.setPosition(-1.5f, 1.5f);
+            enemy4.setPosition(0.5f, 1.5f);
+            enemy5.setPosition(0.0f, -1.2f);
+            enemy6.setPosition(1.5f, -1.5f);
+
         }
 
         if (fading) {
@@ -175,7 +193,7 @@ public class Game implements IGameLogic {
         try {
             init(gameWindow);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.game().error("Exception during game restart"); // improved logging
         }
     }
 }
