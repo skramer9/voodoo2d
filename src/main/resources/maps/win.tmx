@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="1" height="1" tilewidth = "64" tileheight="64">
+ <tileset firstgid="4" name="winMap" tilewidth="64" tileheight="64">
+  <image source="LastMap.png" width="64" height="64"/>
+ </tileset>
+ <layer name="Background" width="1" height="1">
+  <data>
+   <tile gid="4"/>
+  </data>
+ </layer>
+ <layer name="Foreground" width="1" height="1">
+  <data>
+   <tile gid="4"/>
+  </data>
+ </layer>
+ <layer name="Top" width="1" height="1">
+  <data>
+    <tile gid="4"/>
+  </data>
+ </layer>
+ <objectgroup name="Collision" width="1" height="1">
+  <object x="287" y="354" width="127" height="60"/>
+ </objectgroup>
+</map>
