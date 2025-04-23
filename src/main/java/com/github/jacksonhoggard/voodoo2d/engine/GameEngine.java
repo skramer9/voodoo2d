@@ -64,7 +64,7 @@ public class GameEngine implements Runnable {
 
     protected void cleanup() {
         Log.engine().info("Cleaning up");
-        gameLogic.cleanup();
+        //gameLogic.cleanup(); //is this null?
         Log.engine().cleanup();
         Log.game().cleanup();
     }
