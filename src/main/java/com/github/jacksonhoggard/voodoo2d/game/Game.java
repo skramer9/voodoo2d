@@ -24,6 +24,7 @@ public class Game implements IGameLogic {
     private GameObject testObject;
     private MapTree secondTree;
     private MapTree thirdTree;
+    private MapTree winScreen;
 
     // created array to keep track of the maps
     public static int mapNumber = 0;
@@ -32,6 +33,10 @@ public class Game implements IGameLogic {
     private Enemy enemy1;
     private Enemy enemy2;
     private Enemy enemy3;
+    private Enemy enemy4;
+    private Enemy enemy5;
+    private Enemy enemy6;
+
 
     // added to create the black fade transition
     private GameObject fadeOverlay;
@@ -49,10 +54,14 @@ public class Game implements IGameLogic {
         testBox = new AABB();
         secondTree = new MapTree("secondMap.tmx");
         thirdTree = new MapTree("thirdMap.tmx");
+        winScreen = new MapTree("win.tmx");
         enemy1 = new Enemy();
         enemy2 = new Enemy();
         enemy3 = new Enemy();
-        allMaps = new MapTree[]{mapTree, secondTree, thirdTree};
+        enemy4 = new Enemy();
+        enemy5 = new Enemy();
+        enemy6 = new Enemy();
+        allMaps = new MapTree[]{mapTree, secondTree, thirdTree, winScreen};
     }
 
     @Override
@@ -66,23 +75,33 @@ public class Game implements IGameLogic {
         testObject.setScale(.2f);
         secondTree.init();
         thirdTree.init();
+        winScreen.init();
         enemy1.init();
         enemy2.init();
         enemy3.init();
+        enemy4.init();
+        enemy5.init();
+        enemy6.init();
         //this is in order, things at the top of the list are behind things later in the list
         gameObjects = new GameObject[] {
                 mapTree.getMapBack(),
                 mapTree.getMapFront(),
-                player,
                 testObject,
+                player,
                 enemy1,
                 enemy2,
                 enemy3,
+                enemy4,
+                enemy5,
+                enemy6,
                 mapTree.getMapTop()
         };
-        enemy1.setPosition(-1.5f, -1.5f);
+        enemy1.setPosition(-1.5f, 1.2f);
         enemy2.setPosition(1.5f, -1.2f);
-        enemy3.setPosition(-1.5f, 1.5f);
+        enemy3.setPosition(-1f, .8f);
+        enemy4.setPosition(-1.25f, 0f);
+        enemy5.setPosition(-1f, -.8f);
+        enemy6.setPosition(1.5f, 1f);
         testBox.setCenter(testObject.getPosition());
         testBox.setDistance(new Vector2f(.025f, .025f));
         //set up fade
@@ -115,19 +134,35 @@ public class Game implements IGameLogic {
         enemy1.update();
         enemy2.update();
         enemy3.update();
+        enemy4.update();
+        enemy5.update();
+        enemy6.update();
         // if the player intersects with the hitbox, trigger the fade to change the background
         if (!hasTriggeredFade && testBox.intersects(player.hitBox) && mapNumber < allMaps.length - 1) {
             fading = true;
             fadeTimer = 0f;
             hasTriggeredFade = true;
+            mapNumber++;
             enemy1.init();
             enemy2.init();
             enemy3.init();
-            enemy1.setPosition(-1.5f, -1f);
-            enemy2.setPosition(1.5f, 1.2f);
-            enemy3.setPosition(-1.5f, 1.5f);
-            testObject.setPosition(0,-1.4f);
-            mapNumber++;
+            enemy4.init();
+            enemy5.init();
+            enemy6.init();
+            if (mapNumber % 2 != 0) {
+                testObject.setPosition(0,-1.4f);
+            } else {
+                testObject.setPosition(0,1.4f);
+            }
+            if (mapNumber == 3) {
+                //put all the enemies off screen
+                enemy1.setPosition(0, 1000);
+                enemy2.setPosition(0, 1000);
+                enemy3.setPosition(0, 1000);
+                enemy4.setPosition(0, 1000);
+                enemy5.setPosition(0, 1000);
+                enemy6.setPosition(0, 1000);
+            }
         }
         // handle fade transition
         if (fading) {
