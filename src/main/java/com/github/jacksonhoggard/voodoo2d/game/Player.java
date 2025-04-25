@@ -3,8 +3,6 @@ package com.github.jacksonhoggard.voodoo2d.game;
 import org.joml.Vector2f;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_E;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_Q;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 
@@ -40,10 +38,14 @@ public class Player extends GameObject {
         Animation runRight = new Animation(this, 8, 11, 6);
         Animation runUp = new Animation(this, 12, 15, 6);
         animations = new Animation[]{runDown, runLeft, runRight, runUp};
-        playerPos = new Vector2f(0,0);
+        if (Game.getMapNumber() % 2 == 0) {
+            playerPos = new Vector2f(0, -1.4f);
+        } else {
+            playerPos = new Vector2f(0, 1.4f);
+        }
         hitBox = new AABB();
         hitBox.setCenter(playerPos); //added player hitbox
-        hitBox.setDistance(new Vector2f(.2f, .2f));
+        hitBox.setDistance(new Vector2f(.1f, .1f));
     }
 
     public void input(Window window) {

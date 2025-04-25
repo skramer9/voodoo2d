@@ -50,8 +50,8 @@ public class MapTree {
         wallTop.setCenter(new Vector2f(0.0f, 1.55f));
         wallTop.setDistance(new Vector2f(1.55f, 0.01f));
         wallBottom = new AABB();
-        wallBottom.setCenter(new Vector2f(0.0f, -1.5f));
-        wallBottom.setDistance(new Vector2f(1.5f, 0.05f));
+        wallBottom.setCenter(new Vector2f(0.0f, -1.55f));
+        wallBottom.setDistance(new Vector2f(1.5f, 0.01f));
     }
 
     public GameObject getMapBack() {

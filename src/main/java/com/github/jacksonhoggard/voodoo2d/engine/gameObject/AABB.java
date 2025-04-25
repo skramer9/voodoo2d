@@ -20,7 +20,6 @@ public class AABB {
         this.center = center;
         this.distance = distance;
     }
-
     /**
      * This method determines whether or not a given AABB collides with this AABB.
      * @param other This is the target of the collision check.

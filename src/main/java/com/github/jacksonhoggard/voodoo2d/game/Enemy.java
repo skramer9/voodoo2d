@@ -43,7 +43,7 @@ public class Enemy extends GameObject {
         enemyPos = new Vector2f(0,0);
         hitBox = new AABB();
         hitBox.setCenter(enemyPos); //added player hitbox
-        hitBox.setDistance(new Vector2f(.2f, .2f));
+        hitBox.setDistance(new Vector2f(.08f, .08f));
     }
 
     public void update() {
